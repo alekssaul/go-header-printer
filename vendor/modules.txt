@@ -1,0 +1,7 @@
+# github.com/lightstep/tracecontext.go v0.0.0-20181129014701-1757c391b1ac
+## explicit
+github.com/lightstep/tracecontext.go/traceparent
+# github.com/onsi/ginkgo v1.16.5
+## explicit; go 1.16
+# github.com/onsi/gomega v1.19.0
+## explicit; go 1.18
