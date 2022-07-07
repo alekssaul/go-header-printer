@@ -19,8 +19,8 @@ func main() {
 		mutateheader = true
 	}
 
-	log.Printf("Downstream URL: %s \n", downstreamURL)
-	log.Printf("Downstream enabled: %v\n", mutateheader)
+	fmt.Printf("Downstream URL: %s \n", downstreamURL)
+	fmt.Printf("Downstream enabled: %v\n", mutateheader)
 
 	// http handler for healthz endpoint
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -47,7 +47,7 @@ func HttpHandler(w http.ResponseWriter, r *http.Request, mutateheader bool, down
 	}
 
 	if downstreamURL != "" {
-		log.Printf("Calling Downstream URL: %s", downstreamURL)
+		fmt.Printf("Calling Downstream URL: %s", downstreamURL)
 		err = callDownstream(downstreamURL, tpHeader)
 	}
 
@@ -66,7 +66,7 @@ func HttpHandler(w http.ResponseWriter, r *http.Request, mutateheader bool, down
 func mutateParentId(before string) (after string) {
 	t, err := traceparent.ParseString(before)
 	if err != nil {
-		log.Printf("Could not parse the ParentID header %s", before)
+		fmt.Printf("Could not parse the ParentID header %s", before)
 		return before
 	}
 
@@ -84,6 +84,7 @@ func callDownstream(downstreamURL string, traceparent string) (e error) {
 	req.Header.Set("traceparent", downstreamURL)
 	res, _ := client.Do(req)
 	if res.StatusCode != http.StatusOK {
+		fmt.Printf("Downstream Responded with Error code : %v", res.StatusCode)
 		return fmt.Errorf("Downstream Responded with Error code : %v", res.StatusCode)
 	}
 	return nil
